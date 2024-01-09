@@ -346,7 +346,7 @@ class InteractiveBoxState extends State<InteractiveBox> {
         _rotateAngle = finalAngle;
         _notifyParentAfterInteracted(details);
         _toggleIsPerforming(false);
-        toggleShowItems(true);
+        _toggleShowItems(true);
       },
       child: child,
     );
@@ -434,13 +434,13 @@ class InteractiveBoxState extends State<InteractiveBox> {
 
   void _toggleMenu(ToggleActionType toggleActionType) {
     if (!_shouldThisGestureToggleActions(toggleActionType)) return;
-    toggleShowItems(!_showItems);
+    _toggleShowItems(!_showItems);
     if (widget.onMenuToggled != null) {
       widget.onMenuToggled!(_getCurrentBoxInfo);
     }
   }
 
-  void toggleShowItems(bool show) {
+  void _toggleShowItems(bool show) {
     setState(() {
       _showItems = show;
     });
@@ -507,12 +507,16 @@ class InteractiveBoxState extends State<InteractiveBox> {
               widget.onActionSelected!(actionType, info);
             }
 
-            toggleShowItems(false);
+            _toggleShowItems(false);
           },
           actionType: actionType,
         );
       },
     );
+  }
+
+  void hideMenu() {
+    setState(() => _showItems = false);
   }
 
   /// Users can only be allowed to interact with the controllable item before releasing the cursor.
@@ -550,7 +554,7 @@ class InteractiveBoxState extends State<InteractiveBox> {
 
     _notifyParentAfterInteracted(details);
     _toggleIsPerforming(false);
-    toggleShowItems(true);
+    _toggleShowItems(true);
   }
 
   void _onScaling(

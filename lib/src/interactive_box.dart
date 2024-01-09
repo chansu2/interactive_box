@@ -346,7 +346,7 @@ class InteractiveBoxState extends State<InteractiveBox> {
         _rotateAngle = finalAngle;
         _notifyParentAfterInteracted(details);
         _toggleIsPerforming(false);
-        _toggleShowItems(true);
+        toggleShowItems(true);
       },
       child: child,
     );
@@ -434,13 +434,13 @@ class InteractiveBoxState extends State<InteractiveBox> {
 
   void _toggleMenu(ToggleActionType toggleActionType) {
     if (!_shouldThisGestureToggleActions(toggleActionType)) return;
-    _toggleShowItems(!_showItems);
+    toggleShowItems(!_showItems);
     if (widget.onMenuToggled != null) {
       widget.onMenuToggled!(_getCurrentBoxInfo);
     }
   }
 
-  void _toggleShowItems(bool show) {
+  void toggleShowItems(bool show) {
     setState(() {
       _showItems = show;
     });
@@ -507,7 +507,7 @@ class InteractiveBoxState extends State<InteractiveBox> {
               widget.onActionSelected!(actionType, info);
             }
 
-            _toggleShowItems(false);
+            toggleShowItems(false);
           },
           actionType: actionType,
         );
@@ -550,7 +550,7 @@ class InteractiveBoxState extends State<InteractiveBox> {
 
     _notifyParentAfterInteracted(details);
     _toggleIsPerforming(false);
-    _toggleShowItems(true);
+    toggleShowItems(true);
   }
 
   void _onScaling(

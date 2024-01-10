@@ -197,8 +197,9 @@ class InteractiveBoxState extends State<InteractiveBox> {
     // }
     print(
         "interactive_box didUpdateWidget [widget.hideForceItem ${widget.hideForceItems}");
-    if (widget.hideForceItems) {
-      _showItems = widget.hideForceItems; // 재구축 시점에 사용
+    if (oldWidget.hideForceItems != widget.hideForceItems) {
+      // hideForceItems 값이 변경되었다면 _showItems 상태를 갱신합니다.
+      _showItems = widget.hideForceItems;
       didUpdated = true;
     }
     if (oldWidget.initialSize.width != widget.initialSize.width) {

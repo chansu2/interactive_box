@@ -191,9 +191,14 @@ class InteractiveBoxState extends State<InteractiveBox> {
   void didUpdateWidget(InteractiveBox oldWidget) {
     bool didUpdated = false;
 
-    if (oldWidget.initialShowActionIcons != widget.initialShowActionIcons) {
-      _showItems = widget.initialShowActionIcons;
-      didUpdated = true;
+    // if (oldWidget.initialShowActionIcons != widget.initialShowActionIcons) {
+    //   _showItems = widget.initialShowActionIcons;
+    //   didUpdated = true;
+    // }
+    if (oldWidget.showItems != widget.showItems) {
+      setState(() {
+        _showItems = widget.showItems; // 재구축 시점에 사용
+      });
     }
     if (oldWidget.initialSize.width != widget.initialSize.width) {
       _width = widget.initialSize.width;

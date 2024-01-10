@@ -195,13 +195,13 @@ class InteractiveBoxState extends State<InteractiveBox> {
     //   _showItems = widget.initialShowActionIcons;
     //   didUpdated = true;
     // }
-    print(
-        "interactive_box didUpdateWidget [widget.hideForceItem ${widget.hideForceItems}");
-    if (oldWidget.hideForceItems != widget.hideForceItems) {
-      // hideForceItems 값이 변경되었다면 _showItems 상태를 갱신합니다.
-      _showItems = !widget.hideForceItems;
+
+    // 현재 메뉴가 활성화되어 있고, 강제로 숨기기 플래그가 true인 경우
+    if (_showItems && widget.hideForceItems) {
+      _showItems = false; // 메뉴를 비활성화
       didUpdated = true;
     }
+
     if (oldWidget.initialSize.width != widget.initialSize.width) {
       _width = widget.initialSize.width;
       didUpdated = true;

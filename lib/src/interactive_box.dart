@@ -195,7 +195,8 @@ class InteractiveBoxState extends State<InteractiveBox> {
     //   _showItems = widget.initialShowActionIcons;
     //   didUpdated = true;
     // }
-
+    print(
+        "interactive_box didUpdateWidget [widget.hideForceItem ${widget.hideForceItems}");
     if (widget.hideForceItems) {
       _showItems = widget.hideForceItems; // 재구축 시점에 사용
       didUpdated = true;

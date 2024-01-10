@@ -36,6 +36,7 @@ class InteractiveBox extends StatefulWidget {
       ControlActionType.none
     ],
     this.initialShowActionIcons = false,
+    this.showItems = false,
     this.toggleBy = ToggleActionType.onTap,
     this.circularMenuDegree,
     this.startFromDegree = 0,
@@ -83,6 +84,7 @@ class InteractiveBox extends StatefulWidget {
   final Decoration? defaultScaleBorderDecoration;
 
   final bool initialShowActionIcons;
+  final bool showItems;
 
   final ToggleActionType? toggleBy;
 

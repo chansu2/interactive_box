@@ -36,7 +36,7 @@ class InteractiveBox extends StatefulWidget {
       ControlActionType.none
     ],
     this.initialShowActionIcons = false,
-    this.showItems = false,
+    this.hideForceItems = false,
     this.toggleBy = ToggleActionType.onTap,
     this.circularMenuDegree,
     this.startFromDegree = 0,
@@ -84,7 +84,7 @@ class InteractiveBox extends StatefulWidget {
   final Decoration? defaultScaleBorderDecoration;
 
   final bool initialShowActionIcons;
-  final bool showItems;
+  final bool hideForceItems;
 
   final ToggleActionType? toggleBy;
 
@@ -196,10 +196,6 @@ class InteractiveBoxState extends State<InteractiveBox> {
     //   didUpdated = true;
     // }
 
-    if (oldWidget.showItems != widget.showItems) {
-      _showItems = widget.showItems; // 재구축 시점에 사용
-      didUpdated = true;
-    }
     if (oldWidget.initialSize.width != widget.initialSize.width) {
       _width = widget.initialSize.width;
       didUpdated = true;
@@ -218,6 +214,11 @@ class InteractiveBoxState extends State<InteractiveBox> {
     }
     if (oldWidget.initialRotateAngle != widget.initialRotateAngle) {
       _rotateAngle = widget.initialRotateAngle;
+      didUpdated = true;
+    }
+
+    if (widget.hideForceItems) {
+      _showItems = widget.hideForceItems; // 재구축 시점에 사용
       didUpdated = true;
     }
 

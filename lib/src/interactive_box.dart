@@ -35,7 +35,7 @@ class InteractiveBox extends StatefulWidget {
       ControlActionType.move,
       ControlActionType.none
     ],
-    this.initialShowActionIcons = false,
+    //this.initialShowActionIcons = false,
     this.toggleBy = ToggleActionType.onTap,
     this.circularMenuDegree,
     this.startFromDegree = 0,
@@ -67,6 +67,7 @@ class InteractiveBox extends StatefulWidget {
     this.onSecondaryTap,
     this.onLongPress,
     this.onNeedToHideMenu,
+    this.showItems = false,
 
     // this.dot,
   })  : assert(child != null || shape != null,
@@ -84,7 +85,8 @@ class InteractiveBox extends StatefulWidget {
   /// Default decoration for scale border
   final Decoration? defaultScaleBorderDecoration;
 
-  final bool initialShowActionIcons;
+  //final bool initialShowActionIcons;
+  final bool showItems;
 
   final ToggleActionType? toggleBy;
 
@@ -181,7 +183,7 @@ class InteractiveBoxState extends State<InteractiveBox> {
   void initState() {
     super.initState();
 
-    _showItems = widget.initialShowActionIcons;
+    _showItems = widget.showItems;
     _x = widget.initialPosition.dx;
     _y = widget.initialPosition.dy;
     _width = widget.initialSize.width;
@@ -193,9 +195,17 @@ class InteractiveBoxState extends State<InteractiveBox> {
   void didUpdateWidget(InteractiveBox oldWidget) {
     bool didUpdated = false;
 
-    if (oldWidget.initialShowActionIcons != widget.initialShowActionIcons) {
-      _showItems = widget.initialShowActionIcons;
-      didUpdated = true;
+    // if (oldWidget.initialShowActionIcons != widget.initialShowActionIcons) {
+    //   _showItems = widget.initialShowActionIcons;
+    //   didUpdated = true;
+    // }
+    if (oldWidget.showItems != widget.showItems) {
+      setState(() {
+        // showItems 값에 따라 필요한 상태 변경 로직
+        // 예를 들어, _showItems 변수를 업데이트하는 로직
+        _showItems = widget.showItems;
+        didUpdated = true;
+      });
     }
     if (oldWidget.initialSize.width != widget.initialSize.width) {
       _width = widget.initialSize.width;
@@ -225,6 +235,7 @@ class InteractiveBoxState extends State<InteractiveBox> {
 
   @override
   Widget build(BuildContext context) {
+    hideMenu();
     final bool isRotating = _selectedAction == ControlActionType.rotate;
     final bool isScaling = _selectedAction == ControlActionType.scale;
     final bool isOverScale =

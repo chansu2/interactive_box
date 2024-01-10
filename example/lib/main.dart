@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     screenSize.height,
                   ),
                 ),
-        
+
                 ///
                 /// Create infinite screen.
                 /// ref: https://stackoverflow.com/a/70915030
@@ -187,7 +187,8 @@ class Table extends StatelessWidget {
       ),
       startFromDegree: -45,
       initialSize: Size(table.width, table.height),
-      initialShowActionIcons: table.showIcons,
+      //initialShowActionIcons: table.showIcons,
+      showItems: true,
       initialPosition: Offset(table.x, table.y),
       initialRotateAngle: table.rotateAngle,
       circularMenuDegree: 180,

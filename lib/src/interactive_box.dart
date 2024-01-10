@@ -66,6 +66,8 @@ class InteractiveBox extends StatefulWidget {
     this.onDoubleTap,
     this.onSecondaryTap,
     this.onLongPress,
+    this.onNeedToHideMenu,
+
     // this.dot,
   })  : assert(child != null || shape != null,
             "Either child or shape must be provided."),
@@ -125,6 +127,8 @@ class InteractiveBox extends StatefulWidget {
   final VoidCallback? onDoubleTap;
   final VoidCallback? onSecondaryTap;
   final VoidCallback? onLongPress;
+  //
+  final VoidCallback? onNeedToHideMenu;
 
   final Color circularMenuIconColor;
   final double iconSize;
@@ -400,6 +404,10 @@ class InteractiveBoxState extends State<InteractiveBox> {
             if (widget.onTap != null) {
               widget.onTap!();
             }
+            if (widget.onNeedToHideMenu != null) {
+              widget.onNeedToHideMenu?.call();
+            }
+
             _toggleMenu(ToggleActionType.onTap);
           },
           onPanUpdate: (details) {

@@ -196,6 +196,10 @@ class InteractiveBoxState extends State<InteractiveBox> {
     //   didUpdated = true;
     // }
 
+    if (widget.hideForceItems) {
+      _showItems = widget.hideForceItems; // 재구축 시점에 사용
+      didUpdated = true;
+    }
     if (oldWidget.initialSize.width != widget.initialSize.width) {
       _width = widget.initialSize.width;
       didUpdated = true;
@@ -214,11 +218,6 @@ class InteractiveBoxState extends State<InteractiveBox> {
     }
     if (oldWidget.initialRotateAngle != widget.initialRotateAngle) {
       _rotateAngle = widget.initialRotateAngle;
-      didUpdated = true;
-    }
-
-    if (widget.hideForceItems) {
-      _showItems = widget.hideForceItems; // 재구축 시점에 사용
       didUpdated = true;
     }
 

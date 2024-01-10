@@ -195,8 +195,11 @@ class InteractiveBoxState extends State<InteractiveBox> {
     //   _showItems = widget.initialShowActionIcons;
     //   didUpdated = true;
     // }
-    _showItems = widget.showItems; // 재구축 시점에 사용
 
+    if (oldWidget.showItems != widget.showItems) {
+      _showItems = widget.showItems; // 재구축 시점에 사용
+      didUpdated = true;
+    }
     if (oldWidget.initialSize.width != widget.initialSize.width) {
       _width = widget.initialSize.width;
       didUpdated = true;

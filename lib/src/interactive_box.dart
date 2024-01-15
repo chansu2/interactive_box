@@ -168,6 +168,9 @@ class InteractiveBoxState extends State<InteractiveBox> {
   late bool _showItems;
   late double _width;
   late double _height;
+  // 추가한 상태 변수
+  bool _enableRotatableItem = true;
+  bool _enableScalableItem = true;
 
   bool _isPerforming = false;
   double _x = 0.0;
@@ -199,6 +202,9 @@ class InteractiveBoxState extends State<InteractiveBox> {
     // 현재 메뉴가 활성화되어 있고, 강제로 숨기기 플래그가 true인 경우
     if (_showItems && widget.hideForceItems) {
       _showItems = false; // 메뉴를 비활성화
+      // 추가한 상태 변수
+      _enableRotatableItem = false;
+      _enableScalableItem = false;
       didUpdated = true;
     }
 
@@ -282,84 +288,86 @@ class InteractiveBoxState extends State<InteractiveBox> {
     ///
 
     // Scaling, this is the bottomest.
-    child = ScalableItem(
-      // dot: widget.dot,
-      cornerDotColor: widget.scaleDotColor,
-      overScaleCornerDotColor: widget.overScaleDotColor,
-      overScaleBorderDecoration: widget.overScaleBorderDecoration,
-      defaultScaleBorderDecoration: widget.defaultScaleBorderDecoration,
-      showOverScaleBorder: isOverScale && widget.showOverscaleBorder,
-      isScaling: isScaling,
-      includedScaleDirections: widget.shape == Shape.circle
-          ? const [
-              ScaleDirection.topLeft,
-              ScaleDirection.topRight,
-              ScaleDirection.bottomRight,
-              ScaleDirection.bottomLeft,
-            ]
-          : widget.includedScaleDirections == null
-              ? const [
-                  ScaleDirection.topLeft,
-                  ScaleDirection.topCenter,
-                  ScaleDirection.topRight,
-                  ScaleDirection.centerRight,
-                  ScaleDirection.bottomRight,
-                  ScaleDirection.bottomCenter,
-                  ScaleDirection.bottomLeft,
-                  ScaleDirection.centerLeft,
-                ]
-              : widget.includedScaleDirections!,
-      onAnyDotDraggingEnd: (details) {
-        _onScalingEnd(details);
-      },
-      onTopLeftDotDragging: (details) {
-        _onScaling(details, ScaleDirection.topLeft);
-      },
-      onTopCenterDotDragging: (details) {
-        _onScaling(details, ScaleDirection.topCenter);
-      },
-      onTopRightDotDragging: (details) {
-        _onScaling(details, ScaleDirection.topRight);
-      },
-      onBottomLeftDotDragging: (details) {
-        _onScaling(details, ScaleDirection.bottomLeft);
-      },
-      onBottomCenterDotDragging: (details) {
-        _onScaling(details, ScaleDirection.bottomCenter);
-      },
-      onBottomRightDotDragging: (details) {
-        _onScaling(details, ScaleDirection.bottomRight);
-      },
-      onCenterLeftDotDragging: (details) {
-        _onScaling(details, ScaleDirection.centerLeft);
-      },
-      onCenterRightDotDragging: (details) {
-        _onScaling(details, ScaleDirection.centerRight);
-      },
-      showCornerDots: isScaling,
-      child: child,
-    );
-
+    if (_enableScalableItem) {
+      child = ScalableItem(
+        // dot: widget.dot,
+        cornerDotColor: widget.scaleDotColor,
+        overScaleCornerDotColor: widget.overScaleDotColor,
+        overScaleBorderDecoration: widget.overScaleBorderDecoration,
+        defaultScaleBorderDecoration: widget.defaultScaleBorderDecoration,
+        showOverScaleBorder: isOverScale && widget.showOverscaleBorder,
+        isScaling: isScaling,
+        includedScaleDirections: widget.shape == Shape.circle
+            ? const [
+                ScaleDirection.topLeft,
+                ScaleDirection.topRight,
+                ScaleDirection.bottomRight,
+                ScaleDirection.bottomLeft,
+              ]
+            : widget.includedScaleDirections == null
+                ? const [
+                    ScaleDirection.topLeft,
+                    ScaleDirection.topCenter,
+                    ScaleDirection.topRight,
+                    ScaleDirection.centerRight,
+                    ScaleDirection.bottomRight,
+                    ScaleDirection.bottomCenter,
+                    ScaleDirection.bottomLeft,
+                    ScaleDirection.centerLeft,
+                  ]
+                : widget.includedScaleDirections!,
+        onAnyDotDraggingEnd: (details) {
+          _onScalingEnd(details);
+        },
+        onTopLeftDotDragging: (details) {
+          _onScaling(details, ScaleDirection.topLeft);
+        },
+        onTopCenterDotDragging: (details) {
+          _onScaling(details, ScaleDirection.topCenter);
+        },
+        onTopRightDotDragging: (details) {
+          _onScaling(details, ScaleDirection.topRight);
+        },
+        onBottomLeftDotDragging: (details) {
+          _onScaling(details, ScaleDirection.bottomLeft);
+        },
+        onBottomCenterDotDragging: (details) {
+          _onScaling(details, ScaleDirection.bottomCenter);
+        },
+        onBottomRightDotDragging: (details) {
+          _onScaling(details, ScaleDirection.bottomRight);
+        },
+        onCenterLeftDotDragging: (details) {
+          _onScaling(details, ScaleDirection.centerLeft);
+        },
+        onCenterRightDotDragging: (details) {
+          _onScaling(details, ScaleDirection.centerRight);
+        },
+        showCornerDots: isScaling,
+        child: child,
+      );
+    }
     // Rotating
-    child = RotatableItem(
-      rotateIndicatorSpacing: widget.rotateIndicatorSpacing,
-      rotateIndicator: widget.rotateIndicator,
-      showRotatingIcon: isRotating,
-      initialRotateAngle: widget.initialRotateAngle,
-      onRotating: (details, rotateAngle) {
-        _rotateAngle = rotateAngle;
-        _notifyParentWhenInteracting(details);
-        _toggleIsPerforming(true);
-      },
-      onRotatingEnd: (details, finalAngle) {
-        _rotateAngle = finalAngle;
-        _notifyParentAfterInteracted(details);
-        _toggleIsPerforming(false);
-        _toggleShowItems(true);
-      },
-      child: child,
-    );
-
+    if (_enableRotatableItem) {
+      child = RotatableItem(
+        rotateIndicatorSpacing: widget.rotateIndicatorSpacing,
+        rotateIndicator: widget.rotateIndicator,
+        showRotatingIcon: isRotating,
+        initialRotateAngle: widget.initialRotateAngle,
+        onRotating: (details, rotateAngle) {
+          _rotateAngle = rotateAngle;
+          _notifyParentWhenInteracting(details);
+          _toggleIsPerforming(true);
+        },
+        onRotatingEnd: (details, finalAngle) {
+          _rotateAngle = finalAngle;
+          _notifyParentAfterInteracted(details);
+          _toggleIsPerforming(false);
+          _toggleShowItems(true);
+        },
+        child: child,
+      );
+    }
     child = MultipleCircularMenu(
       x: _x,
       y: _y,
